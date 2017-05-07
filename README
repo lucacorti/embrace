@@ -5,7 +5,7 @@ The projects contains the backend and frontend components and docker tooling.
 The project consists of three docker containers:
 
 backend - Gunicorn serving a Django app
-frontend - Nginx serbing an Ember app
+frontend - Nginx serving an Ember app
 db - PostgreSQL/PostGIS
 
 To run the project with docker just run the build-and-run.sh script from the root.
