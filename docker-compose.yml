@@ -1,0 +1,14 @@
+version: '3'
+services:
+  backend:
+    build: embrace_django
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+  frontend:
+    build: embrace_ember
+    ports:
+      - "4200:80"
+  db:
+    image: mdillon/postgis

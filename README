@@ -1,0 +1,48 @@
+Embrace Dashboard
+
+The projects contains the backend and frontend components and docker tooling.
+
+The project consists of three docker containers:
+
+backend - Gunicorn serving a Django app
+frontend - Nginx serbing an Ember app
+db - PostgreSQL/PostGIS
+
+To run the project with docker just run the build-and-run.sh script from the root.
+The only prerequisites are node/npm, docker, docker-compose and docker-machine.
+
+N.B. Due to limitations in building native code for containers on OSX, you need to
+have ember-cli installed and build the frontend project before running docker-compose.
+The build-and-run.sh script takes care of this.
+
+Once docker has finished building, you can start the app with:
+
+docker-compose up
+
+The app should be visible at http://localhost:4200. There seems to be some kind
+of race condition with dependencies during startup despite they are configured.
+Jus run `docker-compose up` a few times if you see database connection errors.
+
+
+You can inspect and run the standalone applications:
+
+embrace_django/
+
+  The backend is a django application. You can run it standalone with:
+
+    $ virtualenv venv
+    $ source venv/bin/activate
+    $ pip install -r requirements
+    $ python manage.py migrate
+    $ python manage.py runserver
+
+    But you need to provide your own database (either spatialite or postgis) and
+    configure it in embrace/settings.py.
+
+
+embrace_ember/
+
+  The frontend is an ember application. You can run it standalone with:
+
+  $ npm install
+  $ ember s --proxy http://localhost:8000

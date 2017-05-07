@@ -2,9 +2,11 @@ import ENV from '../config/environment';
 import Ember from 'ember';
 import JSONAPIAdapter from 'ember-data/adapters/json-api';
 
-const { computed, get } = Ember;
+const { get } = Ember;
 
 export default JSONAPIAdapter.extend({
+  host: ENV.APP.API_HOST,
+  namespace: ENV.APP.API_NAMESPACE,
   urlForFindAll(modelName, snapshot) {
     let url = this._super(...arguments);
     let params = this.queryParamsToString(modelName, get(snapshot, 'adapterOptions.query'));
@@ -35,15 +37,5 @@ export default JSONAPIAdapter.extend({
       let value = encodeURIComponent(query[item]);
       return `${acc}${param}=${value}&`;
     }, '?');
-  },
-  // host: computed({
-  //   get() {
-  //     return ENV.APP.API_HOST;
-  //   }
-  // }),
-  namespace: computed({
-    get() {
-      return ENV.APP.API_NAMESPACE;
-    }
-  })
+  }
 });

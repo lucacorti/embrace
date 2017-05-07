@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ENV from '../config/environment';
 
 const { Route, get, inject, set } = Ember;
 
@@ -9,7 +10,7 @@ export default Route.extend({
   },
   setupController(controller, model) {
     set(controller, 'metrics', model);
-    get(this, 'ajax').request('/api/stats').then((stats) => {
+    get(this, 'ajax').request(`${ENV.APP.API_HOST}/api/stats`).then((stats) => {
       set(controller, 'stats', stats.data);
       set(controller, 'stats-error', null);
     }, () => {
