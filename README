@@ -20,7 +20,7 @@ Once docker has finished building, you can start the app with:
 docker-compose up
 
 The app should be visible at http://localhost:4200. There seems to be some kind
-of race condition with dependencies during startup despite they are configured.
+of race condition with dependencies during startup despite being are configured.
 Jus run `docker-compose up` a few times if you see database connection errors.
 
 
