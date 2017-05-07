@@ -1,19 +1,32 @@
 Embrace Dashboard
 
-The projects contains the backend and frontend components and docker tooling.
-
 The project consists of three docker containers:
 
-backend - Gunicorn serving a Django app
-frontend - Nginx serving an Ember app
-db - PostgreSQL/PostGIS
+backend - Gunicorn serving a Django app, exposing a JSONAPI REST API.
+frontend - Nginx serving an Ember app implementing the frontend UI.
+db - PostgreSQL/PostGIS, for data persistence.
 
-To run the project with docker just run the build-and-run.sh script from the root.
-The only prerequisites are node/npm, docker, docker-compose and docker-machine.
+Adding realtime data to the map is not implemented, but for convenience downloads
+added via the frontend form are immediately displayed. Of course this will only
+show downloads added from the same client.
+
+This could be removed when a proper realtime map implementation is added. This
+could be implemented by pushing any downloads created via the API exposed to the
+frontend via a WebSocket to which all frontends can connect. Through the same
+WebSocket statistics updates could also be pushed. On this implementation this
+could be done using the django-channels addon which implements a scalable event
+driven frontend to the Django view layer. Alternatively, polling could be used.
+
+To build the project run:
+
+sh build.sh script
+
+from the project root. The only prerequisites are node 7.x with npm, docker,
+docker-compose and docker-machine (you should use Docker for Mac on OS X).
 
 N.B. Due to limitations in building native code for containers on OSX, you need to
 have ember-cli installed and build the frontend project before running docker-compose.
-The build-and-run.sh script takes care of this.
+The build.sh script takes care of this.
 
 Once docker has finished building, you can start the app with:
 

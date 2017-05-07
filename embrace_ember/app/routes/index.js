@@ -17,5 +17,10 @@ export default Route.extend({
       set(controller, 'stats', null);
       set(controller, 'stats-error', 'Error while trying to fetch stats');
     });
+  },
+  actions: {
+    refresh() {
+      this.refresh();
+    }
   }
 });

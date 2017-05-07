@@ -35,7 +35,9 @@ export default Controller.extend({
         }
       });
       set(this, 'errors', []);
-      metric.save().then(() => {}, (error) => {
+      metric.save().then(() => {
+        this.send('refresh');
+      }, (error) => {
         set(this, 'errors', get(error, 'errors'));
       });
     },
