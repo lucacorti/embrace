@@ -1,0 +1,86 @@
+<div class="layout-row flex">
+  <h1>Embrace Dashboard</h1>
+</div>
+
+<div class="layout-row flex">
+  <div id="map-container" class="layout-column flex">
+  {{#leaflet-map lat=0 lng=0 zoom=1 maxZoom=25 scrollWheelZoom=false onClick=(action 'clickMap')
+    as |layers|}}
+    {{layers.tile url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
+    {{#each metrics as |metric|}}
+      {{#layers.marker location=metric.point as |marker|}}
+        {{#marker.popup}}
+          <h3>{{metric.app_id}}</h3>
+          {{metric.downloaded_at}}
+          {{metric.point.firstObject}}, {{metric.point.lastObject}}
+        {{/marker.popup}}
+      {{/layers.marker}}
+    {{/each}}
+  {{/leaflet-map}}
+  </div>
+</div>
+
+<div class="layout-row layout-padding flex">
+  <div class="layout-column flex">
+    <h1>Downloads by</h1>
+  </div>
+</div>
+
+{{#liquid-if stats}}
+<div class="layout-row layout-padding flex">
+  {{stats-block title="Country" stats=stats.by_country}}
+  {{stats-block title="App" stats=stats.by_app}}
+  {{stats-block title="Time of day" stats=stats.by_time}}
+</div>
+{{else}}
+  {{paper-progress-circular}}
+{{/liquid-if}}
+
+{{#liquid-if stats-error}}
+<div class="layout-row flex layout-padding">
+  <div class="layout-column flex">
+    <h2 class="error">{{stats-error}}</h2>
+  </div>
+</div>
+{{/liquid-if}}
+
+<div class="layout-row layout-padding flex">
+  <div class="layout-column flex">
+    <h1>Add Download</h1>
+    <h5>Click anywhere on the map to amutomatically set coordinates</h5>
+  </div>
+</div>
+
+{{#paper-form onSubmit=(action 'addMetric') as |form|}}
+<div class="layout-row flex layout-padding">
+  <div class="flex-50 layout-padding">
+    {{paper-input value=app_id label="App ID" onChange=(action (mut app_id)) required=true maxLength=128}}
+  </div>
+  <div class="flex-50 layout-padding">
+    {{paper-input value=downloaded label="Downloaded at" onChange=(action (mut downloaded)) required=true customValidation=dateValidation}}
+  </div>
+</div>
+
+<div class="layout-row layout-padding flex">
+  <div class="layout-padding flex-50">
+    {{paper-input value=latitude label="Latitude" onChange=(action (mut latitude)) required=true customValidation=latLngValidations}}
+  </div>
+  <div class="layout-padding flex-50">
+    {{paper-input value=longitude label="Longitude" onChange=(action (mut longitude)) required=true customValidation=latLngValidations}}
+  </div>
+</div>
+
+<div class="layout-row layout-padding flex">
+  <div class="flex">
+    {{#form.submit-button disabled=form.isInvalid raised=true primary=true}}Save{{/form.submit-button}}
+  </div>
+</div>
+
+<div class="layout-row layout-padding flex">
+  {{#each errors as |error|}}
+  <div class="layout-column flex error">
+    {{error.source.pointer}}: {{error.detail}}
+  </div>
+  {{/each}}
+</div>
+{{/paper-form}}

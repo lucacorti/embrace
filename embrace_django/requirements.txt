@@ -1,0 +1,8 @@
+Django==1.11.0
+djangorestframework==3.6.2
+djangorestframework-gis==0.11.0
+djangorestframework-jsonapi==2.2.0
+django-cors-headers==2.0.2
+gunicorn==19.7.1
+psycopg2==2.7.1
+pytz==2017.2

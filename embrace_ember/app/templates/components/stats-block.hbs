@@ -1,0 +1,8 @@
+<div class="flex">
+  <h2>{{title}}</h2>
+</div>
+{{#each stats as |stat|}}
+<div class="flex">
+  <b>{{stat.label}}</b> {{stat.value}}
+</div>
+{{/each}}
